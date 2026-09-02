@@ -1,0 +1,2 @@
+Model,Val_Macro_F1,Month6_Macro_F1,Month6_Accuracy,Month6_Bal_Acc,Month6_Top2,Month6_Top3,Month6_ROC_AUC,Month6_Log_Loss
+Baseline Logistic Regression,0.348,0.2946,0.3553,0.3147,0.5808,0.7237,0.7573,1.83

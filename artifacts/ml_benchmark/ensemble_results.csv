@@ -1,0 +1,2 @@
+Model,Weights,Val_Macro_F1,Val_Accuracy,Val_Log_Loss,Improves_Over_Best_Single
+Optimized Ensemble,"{'Tuned LR': 0.045, 'Tuned XGBoost': 0.051, 'Tuned LightGBM': 0.3, 'Tuned CatBoost': 0.603}",0.4346,0.4841,1.6318,True

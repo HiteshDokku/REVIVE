@@ -1,0 +1,14 @@
+# REVIVE Application Settings
+# Non-secret operational configuration.
+# Secrets use environment variables (.env).
+
+app:
+  name: "REVIVE"
+  version: "0.1.0"
+  description: "Autonomous Revenue Recovery & Intervention Engine"
+  debug: false
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+  reload: false

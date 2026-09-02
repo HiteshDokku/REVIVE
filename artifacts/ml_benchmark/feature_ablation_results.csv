@@ -1,0 +1,11 @@
+Feature_Set,Feature_Count,Month6_Macro_F1,Month6_Accuracy,Month6_Bal_Acc,Month6_Log_Loss
+A. Transaction-Only,6,0.1443,0.3203,0.1652,1.9858
+B. Customer-Only,5,0.1153,0.3013,0.1446,2.0442
+C. Temporal-Only,12,0.1168,0.308,0.1468,2.1427
+D. Historical-Only,12,0.1155,0.3346,0.1622,2.0432
+E. Gateway-Only,2,0.0833,0.2234,0.1033,2.3054
+F. Transaction+Temporal,18,0.1696,0.3869,0.2003,1.8711
+G. Customer+Transaction,11,0.1648,0.3298,0.1845,1.9313
+H. Historical+Transaction,18,0.1858,0.3707,0.2163,1.8824
+I. Full Relational,53,0.3633,0.4895,0.3539,1.565
+J. Full+Interactions,53,0.3633,0.4895,0.3539,1.565

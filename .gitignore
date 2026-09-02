@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data artifacts (large files)
+data/raw/*.csv
+data/raw/*.parquet
+data/processed/*.csv
+data/processed/*.parquet
+data/synthetic/*.csv
+data/synthetic/*.parquet
+data/predictions/*.csv
+data/predictions/*.parquet
+
+# ML artifacts
+artifacts/models/*.pkl
+artifacts/models/*.joblib
+artifacts/models/*.json
+artifacts/evaluations/*.json
+artifacts/evaluations/*.csv
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Pytest
+.pytest_cache/
+
+# MyPy
+.mypy_cache/
+
+# Ruff
+.ruff_cache/
+
+# Coverage
+htmlcov/
+.coverage
+coverage.xml
