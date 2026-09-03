@@ -55,9 +55,13 @@ class GuardrailsEngine:
                 ["fail_safe"],
             )
 
+        injector = get_fault_injector()
+        
         # 1. Already-paid / Already-recovered (Stop Rule)
         evaluated.append("already_resolved")
-        if case.status in ("RECOVERED", "CLOSED", "CANCELLED"):
+        is_already_paid = case.status in ("RECOVERED", "CLOSED", "CANCELLED") or injector.should_inject(FaultType.ALREADY_PAID, str(case_id))
+        
+        if is_already_paid:
             if action_type == "NO_ACTION":
                 return self._no_action(case_id, "Case is already resolved.")
             return self._deny(

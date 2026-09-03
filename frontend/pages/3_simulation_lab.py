@@ -10,6 +10,23 @@ st.markdown(
     "Run localized evaluations of recovery strategies against synthetic or historical populations."
 )
 
+st.markdown(
+    """
+    <style>
+    /* Prevent truncation in metrics */
+    [data-testid="stMetricValue"] {
+        white-space: normal !important;
+        word-break: break-word !important;
+    }
+    [data-testid="stMetricDelta"] {
+        white-space: normal !important;
+        word-break: break-word !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 col1, col2 = st.columns([1, 3])
 
 with col1:
@@ -127,12 +144,16 @@ with col2:
                     delta=f"{((net_b - net_a) / net_a * 100):.1f}%" if net_a > 0 else "N/A",
                 )
                 c3.metric(
-                    label="Intervention Cost (A)", value=f"₹{cost_a:,.2f}", delta_color="inverse"
+                    label="Intervention Cost (A)", value=f"₹{cost_a:,.2f}"
                 )
+                
+                cost_diff = cost_b - cost_a
+                cost_delta_str = f"-₹{abs(cost_diff):,.2f}" if cost_diff < 0 else f"₹{cost_diff:,.2f}"
+                
                 c4.metric(
                     label="Intervention Cost (B)",
                     value=f"₹{cost_b:,.2f}",
-                    delta=f"₹{cost_b - cost_a:,.2f}",
+                    delta=cost_delta_str,
                     delta_color="inverse",
                 )
     else:
@@ -170,11 +191,15 @@ with col2:
             value=f"₹{net_b:,.2f}",
             delta=f"{((net_b - net_a) / net_a * 100):.1f}%" if net_a > 0 else "N/A",
         )
-        c3.metric(label=f"Intervention Cost ({sa})", value=f"₹{cost_a:,.2f}", delta_color="inverse")
+        c3.metric(label=f"Intervention Cost ({sa})", value=f"₹{cost_a:,.2f}")
+        
+        cost_diff = cost_b - cost_a
+        cost_delta_str = f"-₹{abs(cost_diff):,.2f}" if cost_diff < 0 else f"₹{cost_diff:,.2f}"
+        
         c4.metric(
             label=f"Intervention Cost ({sb})",
             value=f"₹{cost_b:,.2f}",
-            delta=f"₹{cost_b - cost_a:,.2f}",
+            delta=cost_delta_str,
             delta_color="inverse",
         )
 
@@ -186,7 +211,15 @@ with col2:
             delta=f"{(rate_b - rate_a) * 100:.1f} pts",
         )
         c7.metric(label=f"Gross Recovered ({sa})", value=f"₹{gross_a:,.2f}")
-        c8.metric(label=f"Gross Recovered ({sb})", value=f"₹{gross_b:,.2f}")
+        
+        gross_diff = gross_b - gross_a
+        gross_delta_str = f"-₹{abs(gross_diff):,.2f}" if gross_diff < 0 else f"₹{gross_diff:,.2f}"
+        
+        c8.metric(
+            label=f"Gross Recovered ({sb})", 
+            value=f"₹{gross_b:,.2f}",
+            delta=gross_delta_str
+        )
 
         safe_a = sim_data.get("safe_a")
         safe_b = sim_data.get("safe_b")

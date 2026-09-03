@@ -109,7 +109,7 @@ def _execute_payment_action(
     )
 
     return ToolResult(
-        success=True,  # The tool call completed (though the outcome might have success=False)
+        success=success,
         message=message,
         created_interventions=[intervention],
         created_outcomes=[outcome],
