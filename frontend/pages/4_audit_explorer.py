@@ -1,14 +1,18 @@
 import pandas as pd
 import streamlit as st
-from frontend.components.ui_components import render_empty_state
 
+from frontend.components.blade_theme import (
+    inject_blade_css,
+    render_blade_header,
+    render_section_title,
+    render_empty_state,
+)
 from src.api.services.ui_service import get_audit_logs
 from src.database.connection import get_sync_session_factory
 
 st.set_page_config(page_title="Audit Explorer", page_icon="📜", layout="wide")
-
-st.title("Audit Explorer")
-st.markdown("Searchable and filterable log of system audit events.")
+inject_blade_css()
+render_blade_header("Audit Explorer", "Searchable and filterable log of system audit events.")
 
 SessionLocal = get_sync_session_factory()
 with SessionLocal() as session:
@@ -19,7 +23,7 @@ if not logs:
 else:
     df_logs = pd.DataFrame(logs)
 
-    st.subheader("Filters")
+    render_section_title("Filters")
     c1, c2, c3, c4 = st.columns(4)
     with c1:
         f_type = st.multiselect("Event Type", options=df_logs["event_type"].unique())
@@ -36,7 +40,6 @@ else:
     if f_actor:
         filtered = filtered[filtered["actor"].isin(f_actor)]
     if f_case:
-        # Handle cases where case_id might be None
         filtered = filtered[filtered["case_id"].fillna("").str.contains(f_case, case=False)]
     if f_corr:
         filtered = filtered[filtered["correlation_id"].str.contains(f_corr, case=False)]
@@ -55,10 +58,10 @@ else:
                 ),
                 "actor": "Actor",
                 "correlation_id": "Correlation ID",
-                "decision": None,  # Hide complex JSON objects from standard table view
+                "decision": None,
                 "policy_result": None,
                 "execution_result": None,
-            },
+},
             hide_index=True,
             use_container_width=True,
         )

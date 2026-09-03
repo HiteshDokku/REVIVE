@@ -3,38 +3,25 @@ from decimal import Decimal
 
 import streamlit as st
 
+from frontend.components.blade_theme import (
+    inject_blade_css,
+    render_blade_header,
+    render_section_title,
+    card_open,
+    card_close,
+)
+
 st.set_page_config(page_title="Simulation Lab", page_icon="🧪", layout="wide")
-
-st.title("Simulation Lab")
-st.markdown(
-    "Run localized evaluations of recovery strategies against synthetic or historical populations."
-)
-
-st.markdown(
-    """
-    <style>
-    /* Prevent truncation in metrics */
-    [data-testid="stMetricValue"] {
-        white-space: normal !important;
-        word-break: break-word !important;
-    }
-    [data-testid="stMetricDelta"] {
-        white-space: normal !important;
-        word-break: break-word !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+inject_blade_css()
+render_blade_header("Simulation Lab", "Run localized evaluations of recovery strategies against synthetic or historical populations.")
 
 col1, col2 = st.columns([1, 3])
 
 with col1:
-    st.subheader("Configuration")
+    card_open("Configuration")
     pop_size = st.number_input("Customer Count", min_value=10, max_value=5000, value=500, step=100)
     months = st.number_input("Months History", min_value=1, max_value=24, value=6)
 
-    # Scenarios like RECESSION or HIGH_RISK are not natively supported by EvaluationEngine yet.
     scenario = "NORMAL"
     strategy_a = st.selectbox(
         "Compare Strategy A", ["NO_ACTION", "ALWAYS_RETRY", "GENERIC_REMINDER", "REVIVE"], index=1
@@ -56,13 +43,12 @@ with col1:
                 ReviveStrategy,
             )
 
-            # Map selection to strategy class
             strategy_map = {
                 "NO_ACTION": NoActionStrategy(),
                 "ALWAYS_RETRY": AlwaysRetryStrategy(),
                 "GENERIC_REMINDER": GenericReminderStrategy(),
                 "REVIVE": ReviveStrategy(),
-            }
+}
 
             config = GenerationConfig(
                 num_customers=int(pop_size), num_months=int(months), seed=int(seed)
@@ -75,19 +61,16 @@ with col1:
 
             from src.evaluation.metrics import compute_financial_metrics, compute_safety_metrics
 
-            # Run Strategy A
             strat_a = strategy_map[strategy_a]
             results_a = engine.evaluate_strategy(strat_a, population, eval_seed=int(seed))
             fin_a = compute_financial_metrics(results_a)
             safe_a = compute_safety_metrics(results_a)
 
-            # Run Strategy B
             strat_b = strategy_map[strategy_b]
             results_b = engine.evaluate_strategy(strat_b, population, eval_seed=int(seed))
             fin_b = compute_financial_metrics(results_b)
             safe_b = compute_safety_metrics(results_b)
 
-            # Store in session state to persist across reruns
             st.session_state["sim_results"] = {
                 "fin_a": fin_a,
                 "fin_b": fin_b,
@@ -98,13 +81,15 @@ with col1:
                 "num_months": int(months),
                 "strategy_a": strategy_a,
                 "strategy_b": strategy_b,
-            }
+}
 
             st.success("Simulation complete!")
             st.session_state["sim_run"] = True
 
+    card_close()
+
 with col2:
-    st.subheader("Simulation Results")
+    render_section_title("Simulation Results")
 
     sim_data = st.session_state.get("sim_results")
     if not sim_data:
@@ -131,43 +116,38 @@ with col2:
                 net_b = extract_mean(strat_b_data, "total_net_recovery")
                 cost_a = extract_mean(strat_a_data, "total_intervention_cost")
                 cost_b = extract_mean(strat_b_data, "total_intervention_cost")
-                rate_a = extract_mean(strat_a_data, "recovery_rate")
-                rate_b = extract_mean(strat_b_data, "recovery_rate")
-                gross_a = extract_mean(strat_a_data, "total_amount_recovered")
-                gross_b = extract_mean(strat_b_data, "total_amount_recovered")
 
+                from frontend.components.ui_components import format_compact_inr
+                
                 c1, c2, c3, c4 = st.columns(4)
-                c1.metric(label="Net Recovered (A)", value=f"₹{net_a:,.2f}")
+                c1.metric(label="Net Recovered (A)", value=format_compact_inr(net_a))
                 c2.metric(
                     label="Net Recovered (B)",
-                    value=f"₹{net_b:,.2f}",
+                    value=format_compact_inr(net_b),
                     delta=f"{((net_b - net_a) / net_a * 100):.1f}%" if net_a > 0 else "N/A",
                 )
-                c3.metric(
-                    label="Intervention Cost (A)", value=f"₹{cost_a:,.2f}"
-                )
+                c3.metric(label="Intervention Cost (A)", value=format_compact_inr(cost_a))
                 
                 cost_diff = cost_b - cost_a
-                cost_delta_str = f"-₹{abs(cost_diff):,.2f}" if cost_diff < 0 else f"₹{cost_diff:,.2f}"
                 
+                # Keep delta string the same, just compact the cost values for the main display
                 c4.metric(
                     label="Intervention Cost (B)",
-                    value=f"₹{cost_b:,.2f}",
-                    delta=cost_delta_str,
+                    value=format_compact_inr(cost_b),
+                    delta=f"-₹{abs(cost_diff):,.2f}" if cost_diff < 0 else f"₹{cost_diff:,.2f}",
                     delta_color="inverse",
                 )
     else:
-        st.info("Displaying dynamic simulation results based on your configuration.")
-        st.markdown("### Simulation Configuration Used")
+        card_open("Configuration Used")
         st.markdown(f"""
-        - **Scenario:** `NORMAL`
-        - **Customers:** `{sim_data.get("num_customers", "N/A")}`
-        - **History:** `{sim_data.get("num_months", "N/A")} months`
-        - **Seed:** `{sim_data["seed"]}`
-        - **Strategy A:** `{sim_data["strategy_a"]}`
-        - **Strategy B:** `{sim_data["strategy_b"]}`
+- **Scenario:** `NORMAL`
+- **Customers:** `{sim_data.get("num_customers", "N/A")}`
+- **History:** `{sim_data.get("num_months", "N/A")} months`
+- **Seed:** `{sim_data["seed"]}`
+- **Strategy A:** `{sim_data["strategy_a"]}`
+- **Strategy B:** `{sim_data["strategy_b"]}`
         """)
-        st.markdown("---")
+        card_close()
 
         fin_a = sim_data["fin_a"]
         fin_b = sim_data["fin_b"]
@@ -183,7 +163,7 @@ with col2:
         gross_a = fin_a.total_amount_recovered
         gross_b = fin_b.total_amount_recovered
 
-        st.markdown("### Head-to-Head Comparison")
+        render_section_title("Head-to-Head Comparison")
         c1, c2, c3, c4 = st.columns(4)
         c1.metric(label=f"Net Recovered ({sa})", value=f"₹{net_a:,.2f}")
         c2.metric(
@@ -228,12 +208,12 @@ with col2:
             if strat_name == "REVIVE":
                 return f"{safe_metrics.policy_violations} Policy Violations"
             else:
-                return "N/A - Not measured by EvaluationEngine (Baselines bypass M8 by design)"
+                return "N/A - Baselines bypass M8 by design"
 
         viol_a = format_violations(sa, safe_a) if safe_a else "N/A"
         viol_b = format_violations(sb, safe_b) if safe_b else "N/A"
 
-        st.markdown("### Policy Violations & Escalations")
+        render_section_title("Policy Violations & Escalations")
         st.write(f"**{sa}:** {viol_a}")
         st.write(f"**{sb}:** {viol_b}")
         st.caption(
