@@ -1,13 +1,25 @@
-# REVIVE
+<p align="center">
+  <img src="https://img.shields.io/badge/RAZORPAY_AI_BUILDATHON-2026-0274D8?style=for-the-badge&labelColor=222222" alt="Buildathon Badge">
+</p>
 
-### AI Revenue Recovery & Resilience Platform
+<h1 align="center"> REVIVE — AI Revenue Recovery & Resilience Platform</h1>
 
-REVIVE identifies revenue at risk, diagnoses why it's at risk, selects a recovery intervention, executes it **only when permitted**, and measures the resulting recovery and cost.
+<p align="center">
+  <b>Identifies risk. Diagnoses causes. Executes recovery safely. Zero unrestricted actions.</b>
+</p>
 
-It's more than a prediction model — it's a full decision-and-execution loop: ML risk scoring, root-cause analysis, agent orchestration, deterministic policy guardrails, action tools, an audit trail, an economic simulation lab, and fault-injection resilience testing.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10+-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54&labelColor=555555" alt="Python">
+  <img src="https://img.shields.io/badge/FastAPI-0.115+-009688?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=555555" alt="FastAPI">
+  <img src="https://img.shields.io/badge/Streamlit-1.35+-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white&labelColor=555555" alt="Streamlit">
+  <img src="https://img.shields.io/badge/LangGraph-0.1+-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white&labelColor=555555" alt="LangGraph">
+  <img src="https://img.shields.io/badge/SQLAlchemy-2.0+-D71F00?style=for-the-badge&logo=sqlite&logoColor=white&labelColor=555555" alt="SQLAlchemy">
+  <img src="https://img.shields.io/badge/PostgreSQL-Async-4169e1?style=for-the-badge&logo=postgresql&logoColor=white&labelColor=555555" alt="PostgreSQL">
+</p>
 
-> **Safety principle:** an AI recommendation is not an authorization to act. Policy and guardrails are the hard boundary between intelligence and execution.
-
+<p align="center">
+  Built for the RazorPay AI Buildathon 2026
+</p>
 ---
 
 ## Table of Contents
