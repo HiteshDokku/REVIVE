@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="path/to/your/new_logo.png" alt="REVIVE Logo" width="400">
-</p>
-
 <h1 align="center"> REVIVE — AI Revenue Recovery & Resilience Platform</h1>
 
 <p align="center">
