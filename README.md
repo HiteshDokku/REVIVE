@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/RAZORPAY_AI_BUILDATHON-2026-0274D8?style=for-the-badge&labelColor=222222" alt="Buildathon Badge">
+  <img src="path/to/your/new_logo.png" alt="REVIVE Logo" width="400">
 </p>
 
 <h1 align="center"> REVIVE — AI Revenue Recovery & Resilience Platform</h1>
@@ -17,9 +17,6 @@
   <img src="https://img.shields.io/badge/PostgreSQL-Async-4169e1?style=for-the-badge&logo=postgresql&logoColor=white&labelColor=555555" alt="PostgreSQL">
 </p>
 
-<p align="center">
-  Built for the RazorPay AI Buildathon 2026
-</p>
 ---
 
 ## Table of Contents
